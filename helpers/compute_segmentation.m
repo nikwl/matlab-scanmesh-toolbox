@@ -9,11 +9,14 @@ function [divisions] = compute_segmentation(obj)
 % Outputs: 
 %   divisions  -  mxn cell array of segments containing point indices
 %
+% Local Dependancies:
+%   compute_adjacencylist
+%
 % Copyright (c) 2018 Nikolas Lamb
 %
 
 % Compute adjacencies
-adjacencies = adjacencyList(obj);
+adjacencies = compute_adjacencylist(obj);
 
 % List all points that are connected
 connectedPoints = horzcat(adjacencies{:});
@@ -61,43 +64,5 @@ while b
         i = i + 1;
     end
 end
-
-end
-
-function [adjacencies] = adjacencyList(obj)
-% Returns a cell array representing a list of all vertex connections in an
-
-% Transpose and shift faces
-facesT = obj.f';
-facesSwT =[obj.f(:,2),obj.f(:,3),obj.f(:,1)]';
-
-% Compute and sort facepairs
-fpairs = [facesT(:),facesSwT(:)];
-fpairsSorted = sortrows(fpairs);
-
-% Preallocate adjacency list
-for i = 1:max(fpairsSorted(:,1))
-    adjacencies{i} = [];
-end
-
-% Initialize loop vairables
-j = fpairsSorted(1,1);
-
-% Initailize adjacency list
-adjacencies{j}(end+1) = fpairsSorted(1,2);
-
-% If an index is repeated, add to the current cell, else start a new cell
-for i = 2:length(fpairsSorted)
-    last = fpairsSorted(i-1,1);
-    if last == fpairsSorted(i,1)
-        adjacencies{j}(end+1) = fpairsSorted(i,2);
-    else
-        j = fpairsSorted(i,1);
-        adjacencies{j}(end+1) = fpairsSorted(i,2);
-    end
-end
-
-% Transpose adjacency list because it makes more sense that way
-adjacencies = adjacencies';
 
 end
