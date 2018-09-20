@@ -53,23 +53,15 @@ rescale = p.Results.Rescale;
 tag = p.Results.Tag;
 segtag = p.Results.SegTag;
 
-% Define viewer
-axis equal
-hold on
-if rescale
-    xlim([min(obj.v(:,1)),max(obj.v(:,1))]);
-    ylim([min(obj.v(:,2)),max(obj.v(:,2))]);
-    zlim([min(obj.v(:,3)),max(obj.v(:,3))]);
-    view([max(obj.v(:,1)),max(obj.v(:,2)),max(obj.v(:,3))]);
-end
-
 % Extract cnfaces
-cnfaces = obj.f(faces,:);
+sobj = obj;
+sobj.f = obj.f(faces,:);
+sobj = perform_delete_unreferenced_vertices(sobj);
 
 % Use patch to display obj with color corlation
-o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor','n','FaceColor',color,'Tag',tag);
-so = patch('Vertices',obj.v,'Faces',cnfaces,'EdgeColor','n','FaceColor',segcolor,'Tag',segtag);
-l = camlight;
+[o,l] = vis_object(obj,'Color',color,'Tag',tag);
+delete(l);
+[so,l] = vis_object(sobj,'Color',segcolor,'Rescale',false,'Tag',segtag);
 drawnow
 
 end

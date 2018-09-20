@@ -13,6 +13,7 @@ function [obj] = read_object(fname)
 % Outputs: 
 %    obj    -  obj struct, with fields: 
 %     .v    -  vertex coordinates
+%     .vc   -  vertex color (can be empty)
 %	  .vt   -  vertex textures (can be empty)
 %	  .vn   -  vertex normals (can be empty)
 %	  .f    -  faces by index
@@ -79,6 +80,7 @@ end
 
 % Initialize arrays (for speed)
 v=zeros( maxs(1),3 );
+vc=zeros( maxs(1),3 );
 vt=zeros( maxs(1),2 );
 vn=zeros( maxs(1),3 );
 f=zeros( maxs(2),3 );
@@ -87,6 +89,7 @@ fn=zeros( maxs(2),3 );
 
 % Initialize incrementors
 vcount = 1;
+vccount = 1;
 vtcount = 1;
 vncount = 1;
 fcount = 1;
@@ -112,8 +115,18 @@ while line ~= -1
                     vtcount = vtcount + 1;
                 otherwise
                     % vertex
-                    v(vcount,:) = sscanf( line, 'v %f %f %f' );
-                    vcount = vcount + 1;
+                    a = sscanf( line, 'v %f %f %f %f %f %f' );
+                    % if present, extract vertex color
+                    switch length(a)
+                        case 3
+                            v(vcount,:) = a;
+                            vcount = vcount + 1;
+                        case 6 
+                            v(vcount,:) = a(1:3);
+                            vc(vccount,:) = a(4:6);
+                            vcount = vcount + 1;
+                            vccount = vccount + 1;
+                    end
             end
         case 'f'
             faces = sscanf( line , 'f %d %d %d' );
@@ -157,6 +170,7 @@ end
 
 % Delete unused array portions
 v(vcount:end,:)=[];
+vc(vccount:end,:)=[];
 vt(vtcount:end,:)=[];
 vn(vncount:end,:)=[];
 f(fcount:end,:)=[];
@@ -165,6 +179,7 @@ fn(fncount:end,:)=[];
 
 % Assign to struct
 obj.v = v;
+obj.vc = vc;
 obj.vt = vt;
 obj.vn = vn;
 obj.f = f;
