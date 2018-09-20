@@ -5,9 +5,10 @@ function [o,l] = vis_object(obj,varargin)
 % Inputs:
 % 	obj  -  obj struct to visulize
 %   optional args:
-%      Color    -  char, change color of object
-%      Rescale  -  boolean, change the viewing window of active figure
-%      Tag      -  char, add a custom tag to the generated patch
+%      FaceColor  -  char, change color of object
+%      EdgeColor  -  char, change color of object faces
+%      Rescale    -  boolean, change the viewing window of active figure
+%      Tag        -  char, add a custom tag to the generated patch
 % Outputs: 
 %   o    -  generated patch object
 %   l    -  generated camlight
@@ -24,12 +25,14 @@ function [o,l] = vis_object(obj,varargin)
 
 % Assign and parse additional inputs
 p = inputParser;
-defaultColor = 'c';
+defaultFColor = [];
+defaultEcolor = 'n';
 defaultRescale = true;
 defaultTag = '1a';
 
 addRequired(p,'obj',@isstruct);
-addParameter(p,'Color',defaultColor,@ischar);
+addParameter(p,'FaceColor',defaultFColor,@ischar);
+addParameter(p,'EdgeColor',defaultEcolor,@ischar);
 addParameter(p,'Rescale',defaultRescale);
 addParameter(p,'Tag',defaultTag);
 
@@ -37,9 +40,19 @@ parse(p,obj,varargin{:});
 
 % Reassign variable names
 obj = p.Results.obj;
-color = p.Results.Color;
+fcolor = p.Results.FaceColor;
+ecolor = p.Results.EdgeColor;
 rescale = p.Results.Rescale;
 tag = p.Results.Tag;
+
+% Empty pass trackers
+coloremp = false;
+
+% Update empty pass trackers
+if isempty(fcolor)
+    fcolor = 'c';
+    coloremp = true;
+end
 
 % Define viewer
 axis equal
@@ -52,19 +65,19 @@ if rescale
 end
 
 if isfield(obj,'vc')
-    if ~isempty(obj.vc)
+    if (~isempty(obj.vc) && coloremp)
         % Use patch to display obj
-        o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor','n','FaceVertexCData',obj.vc,'Tag',tag);
+        o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor',ecolor,'FaceVertexCData',obj.vc,'Tag',tag);
         o.FaceColor = 'interp';
         l = camlight;
     else
         % Use patch to display obj
-        o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor','n','FaceColor',color,'Tag',tag);
+        o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor',ecolor,'FaceColor',fcolor,'Tag',tag);
         l = camlight;
     end
 else
     % Use patch to display obj
-    o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor','n','FaceColor',color,'Tag',tag);
+    o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor',ecolor,'FaceColor',fcolor,'Tag',tag);
     l = camlight;
 end
 

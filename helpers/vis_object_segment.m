@@ -18,7 +18,8 @@ function [o,so,l] = vis_object_segment(obj,faces,varargin)
 %   l      -  generated camlight
 %
 % Local Dependancies:
-%   none
+%   vis_object
+%   perform_delete_unreferenced_vertices
 %
 % Note: 
 %
@@ -59,7 +60,7 @@ sobj.f = obj.f(faces,:);
 sobj = perform_delete_unreferenced_vertices(sobj);
 
 % Use patch to display obj with color corlation
-[o,l] = vis_object(obj,'Color',color,'Tag',tag);
+[o,l] = vis_object(obj,'Color',color,'Rescale',rescale,'Tag',tag);
 delete(l);
 [so,l] = vis_object(sobj,'Color',segcolor,'Rescale',false,'Tag',segtag);
 drawnow
