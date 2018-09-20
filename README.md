@@ -13,7 +13,7 @@ contact me and I'll check it out.
 
 ## Methods
 ### Import Export
-#### read_object, write-object
+#### read_object, write_object
 Methods to read and write .obj files. These files will parse vertices, vertex normals, vertex textures, 
 faces, face normals, and face textures. Does not save any material or texture files. As far as I know
 this is the fastest existing .obj reader implementation for matlab. 
