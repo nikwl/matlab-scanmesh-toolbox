@@ -23,13 +23,18 @@ this is the fastest existing .obj reader implementation for matlab.
 Methods to visulize objects using matlab's patch function. vis_object displays the entire object in 
 a single color, while vis_object_segment will highlight a specific part of the object. 
 
-### Setting Ground Truth Scale
-#### perform_rescale_manual
+### Rescale Object with Known Ground-Truth
+#### perform_manual_rescale
 Method to scale an object using known ground truth object. Requires an object of known 
 physical size which was scanned at the same time as the object to be scaled (I recommend a cube).
 
+### Align Two Objects with ICP
+#### perform_manual_align
+Method to align two objects to one another. Requires selecting three points on each object. Object
+alignment is updated after every point, and the final point snaps the objects using ICP.
+
 ### Recompute Normals
-#### perform_facenormal_recompute
+#### perform_recompute_facenormals
 Method that recomputes an object's vertex normals and face normals.
 
 ### Segmenting
@@ -42,12 +47,13 @@ Methods that return all faces that refernce a list of vertices, or returns all v
 referenced by a list of faces. 
 
 ### Deleting Vertices
-#### perform_delete_vertices, perform_delete_duplicate_vertices
-Methods that delete a list of vertices from an object, or identify and remove duplicate vertices 
-from an object. Cleans up faces and and vertices after removal. Useful for removing identified 
-artifacts. 
+#### perform_delete_vertices, perform_delete_duplicate_vertices, perform_delete_unreferenced_vertices
+Methods that delete a list of vertices from an object, identify and remove duplicate vertices 
+from an object, or remove vertices that are not referenced in the face list. Cleans up faces and 
+and vertices after removal. Useful for removing identified artifacts or cleaning up an object. 
 
 ### Object Transforms
-#### perform_rotation, perform_scaling, perform_translation
-Methods to rotate, scale, and translate an object about a given axis, point or with a given matrix.  
+#### perform_rotation, perform_scaling, perform_translation, perform_matrix_transform
+Methods to rotate, scale, and translate an object about a given axis, point or with a given matrix. 
+Each transformation returns a matrix, and matrices can be applied in sequence using matrix_transform.
 
