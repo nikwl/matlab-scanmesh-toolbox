@@ -23,9 +23,10 @@ fid=fopen(objname,'w');
 fprintf(fid,'# %d vertices, %d faces\n',length(obj.v),length(obj.f));
 
 % Find max vertex parameter
-maxs = max([length(obj.v),length(obj.vt),length(obj.vn)]);
+maxs = max([length(obj.v),length(obj.vc),length(obj.vt),length(obj.vn)]);
 
 % Initialize conditionals
+writevc = ~isempty(obj.vc);
 writevt = ~isempty(obj.vt);
 writevn = ~isempty(obj.vn);
 writeft = ~isempty(obj.ft);
@@ -34,7 +35,11 @@ writefn = ~isempty(obj.fn);
 % Print vertices 
 for vcount = 1:maxs
     if (vcount <= length(obj.v))
-        fprintf(fid,'v %f %f %f\n',obj.v(vcount,1),obj.v(vcount,2),obj.v(vcount,3));
+        if (writevc == true && vcount <= length(obj.vc))
+            fprintf(fid,'v %f %f %f %f %f %f\n',obj.v(vcount,1),obj.v(vcount,2),obj.v(vcount,3),obj.vc(vcount,1),obj.vc(vcount,2),obj.vc(vcount,3));
+        else
+            fprintf(fid,'v %f %f %f\n',obj.v(vcount,1),obj.v(vcount,2),obj.v(vcount,3));
+        end
     end
     if (writevt == true && vcount <= length(obj.vt))
         fprintf(fid,'vt %f %f\n',obj.vt(vcount,1),obj.vt(vcount,2));
