@@ -55,14 +55,14 @@ end
 if isempty(maxs)
     % Use system call to determine length of file
     if (ismac || isunix)
-        [status, cmdout]= system('wc -l filenameOfInterest.txt');
+        [status, cmdout]= system(['wc -l',fname]);
         if(status~=1)
             scanCell = textscan(cmdout,'%u %s');
             maxs(1) = scanCell{3};
             maxs(2) = scanCell{3};
         end
     elseif ispc
-        [status, cmdout] = system(['find /c /v "" ',fname]);
+        [status, cmdout] = system(char(['find /c /v "" ',fname]));
         if(status~=1)
             scanCell = textscan(cmdout,'%s %s %u');
             maxs(1) = scanCell{3};
