@@ -41,7 +41,7 @@ line=fgets( fid );
 
 % Read in header and assign value to max
 while line(1) == '#'
-    if ~isempty(sscanf( line, '# %f vertices, %f faces' ))
+    if length(sscanf( line, '# %f vertices, %f faces' ))  == 2
         maxs = sscanf( line, '# %f vertices, %f faces' );
     elseif ~isempty(sscanf( line, '# Vertices: %f' ))
         maxs(1) = sscanf( line, '# Vertices: %f' );
