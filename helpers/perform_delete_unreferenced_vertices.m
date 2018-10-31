@@ -13,10 +13,10 @@ function [obj] = perform_delete_unreferenced_vertices(obj)
 % Copyright (c) 2018 Nikolas Lamb
 %
 
-% Compute a list of all vertex refernces
+% Compute an index list of all vertices
 allvs = 1:length(obj.v);
 
-% Compute a list of all referenced vertices
+% Compute an index list of all referenced vertices
 refvs = unique(obj.f(:))';
 
 % Compute the difference, that is unreferenced vertices

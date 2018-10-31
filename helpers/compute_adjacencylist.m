@@ -12,33 +12,33 @@ function [adjacencies] = compute_adjacencylist(obj)
 % Copyright (c) 2018 Nikolas Lamb
 %
 
-% Transpose and shift faces
+% Transpose and switch faces
 facesT = obj.f';
 facesSwT =[obj.f(:,2),obj.f(:,3),obj.f(:,1)]';
 
-% Compute and sort facepairs
-fpairs = [facesT(:),facesSwT(:)];
-fpairsSorted = sortrows(fpairs);
+% Compute and sort edges
+edges = [facesT(:),facesSwT(:)];
+edgesSorted = sortrows(edges);
 
 % Preallocate adjacency list
-for i = 1:max(fpairsSorted(:,1))
+for i = 1:max(edgesSorted(:,1))
     adjacencies{i} = [];
 end
 
 % Initialize loop vairables
-j = fpairsSorted(1,1);
+first = edgesSorted(1,1);
 
 % Initailize adjacency list
-adjacencies{j}(end+1) = fpairsSorted(1,2);
+adjacencies{first}(end+1) = edgesSorted(1,2);
 
 % If an index is repeated, add to the current cell, else start a new cell
-for i = 2:length(fpairsSorted)
-    last = fpairsSorted(i-1,1);
-    if last == fpairsSorted(i,1)
-        adjacencies{j}(end+1) = fpairsSorted(i,2);
+for i = 2:length(edgesSorted)
+    second = edgesSorted(i-1,1);
+    if second == edgesSorted(i,1)
+        adjacencies{first}(end+1) = edgesSorted(i,2);
     else
-        j = fpairsSorted(i,1);
-        adjacencies{j}(end+1) = fpairsSorted(i,2);
+        first = edgesSorted(i,1);
+        adjacencies{first}(end+1) = edgesSorted(i,2);
     end
 end
 

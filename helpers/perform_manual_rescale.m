@@ -25,7 +25,7 @@ function [objtoscale] =  perform_manual_rescale(objtoscale,refobj,refdist)
 fprintf('Shift-select two points on the object that correspond to the reference distance\n');
 fprintf('Close the figure when points have been selected\n');
 
-% Create a new figure 
+% Create a new figure
 fig = figure;
 vis_object(refobj)
 view(max(refobj.v))
