@@ -37,8 +37,8 @@ alignment is updated after every point, and the final point snaps the objects us
 #### perform_recompute_facenormals
 Method that recomputes an object's vertex normals and face normals.
 
-### Segmenting
-#### compute_segmentation
+### Connected Components
+#### compute_connectedcomponents
 Method to devide an object into its connected components. Useful to identify small artifacts. 
 
 ### Finding Faces or Vertices
