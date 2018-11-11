@@ -30,7 +30,7 @@ for i = 1:length(obj.f)
 end
 
 % Normalize vectors
-for i = length(obj.v)
+for i = 1:length(obj.v)
     vns(i,:) = vns(i,:)./norm(vns(i,:));
 end
 
