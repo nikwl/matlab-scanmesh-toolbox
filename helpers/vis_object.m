@@ -64,17 +64,11 @@ if rescale
     view([max(obj.v(:,1)),max(obj.v(:,2)),max(obj.v(:,3))]);
 end
 
-if isfield(obj,'vc')
-    if (~isempty(obj.vc) && coloremp)
-        % Use patch to display obj
-        o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor',ecolor,'FaceVertexCData',obj.vc,'Tag',tag);
-        o.FaceColor = 'interp';
-        l = camlight;
-    else
-        % Use patch to display obj
-        o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor',ecolor,'FaceColor',fcolor,'Tag',tag);
-        l = camlight;
-    end
+if (~isempty(obj.vc) && coloremp)
+    % Use patch to display obj
+    o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor',ecolor,'FaceVertexCData',obj.vc,'Tag',tag);
+    o.FaceColor = 'interp';
+    l = camlight;
 else
     % Use patch to display obj
     o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor',ecolor,'FaceColor',fcolor,'Tag',tag);

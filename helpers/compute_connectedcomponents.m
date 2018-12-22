@@ -1,4 +1,4 @@
-function [divisions] = compute_segmentation(obj)
+function [components] = compute_connectedcomponents(obj)
 % Segments object into groups of points. The number of elements in the
 %    returned cell array will determine number of independant segments in
 %    obj. Useful in tandem with perform_delete_vertices to remove artifacts  
@@ -12,6 +12,10 @@ function [divisions] = compute_segmentation(obj)
 % Local Dependancies:
 %   compute_adjacencylist
 %
+% Notes: 
+%   Based on Tarjan's strongly connected components algorithm, except this
+%   implementation uses BFS instead of DFS.
+%
 % Copyright (c) 2018 Nikolas Lamb
 %
 
@@ -24,9 +28,9 @@ connectedPoints = horzcat(adjacencies{:});
 % Initialize loop variables
 seeds = connectedPoints;
 i = 1;
-divisions{i} = [];
-excl = [];
-inclall = [];
+components{1} = [];
+exclude = [];
+includeall = [];
 
 % Loop conditionals
 a = true;
@@ -35,14 +39,14 @@ b = true;
 % Segment the object
 while b
     % Initialize loop variables
-    temp = setdiff(seeds,[excl,inclall']);
+    temp = setdiff(seeds,[exclude,includeall']);
     next = temp(1);
     incl = next;
    
     % Segment the object, using next like a wave bounded by excl
     while a
         next = horzcat(adjacencies{next})';
-        next = setdiff(next,[excl,incl']);
+        next = setdiff(next,[exclude,incl']);
         incl = [incl;next];
         if isempty(next)
             a = false;
@@ -50,11 +54,11 @@ while b
     end
     
     % Add inclusions to the count
-    divisions{i} = incl;
-    inclall = [inclall;incl];
+    components{i} = incl;
+    includeall = [includeall;incl];
     
     % Check if there are no more possible
-    seeds = setdiff(connectedPoints,[excl,inclall']);
+    seeds = setdiff(connectedPoints,[exclude,includeall']);
     
     % Break if there are none else create a new division
     if isempty(seeds)

@@ -18,6 +18,6 @@ vidxs = obj.f(fidxs,:);
 vidxs = unique(vidxs(:));
 
 % Extract vertices from the computed indices
-vs = unique(obj.v(vidxs,:),'rows');
+vs = obj.v(vidxs,:);
 
 end
