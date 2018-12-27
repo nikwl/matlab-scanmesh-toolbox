@@ -32,7 +32,7 @@ end
 
 % Extract vertices, transpose, and homogenize 
 vs = obj.v;
-hvs = [vs,zeros(length(vs),1)];
+hvs = [vs,ones(length(vs),1)];
 hvs = num2cell(hvs',1);
 
 % Apply transformations in parallel
@@ -52,7 +52,7 @@ if ~isempty(obj.vn)
 
     % Extract normals, transpose, and homogenize 
     vns = obj.vn;
-    hvns = [vns,zeros(length(vs),1)];
+    hvns = [vns,ones(length(vs),1)];
     hvns = num2cell(hvns',1);
     
     % Apply transformations in parallel
