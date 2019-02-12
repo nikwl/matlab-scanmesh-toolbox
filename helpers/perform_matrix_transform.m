@@ -22,8 +22,7 @@ numtrans = length(trans);
 % Multiply matricies if multiple transformations
 if numtrans > 1
     transM = trans{1};
-    trans(1) = [];
-    for i = 1:numtrans-1
+    for i = 2:numtrans
         transM = trans{i} * transM;
     end 
 else
