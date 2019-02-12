@@ -50,8 +50,7 @@ obj.fn(r,:) = [];
 
 % Remap vertex and vertex normal lists
 obj.v = obj.v(newPts,:);
-if ~isempty(obj.vc); obj.vc = obj.vc(newPts,:); end;
-if ~isempty(obj.vn); obj.vn = obj.vn(newPts,:); end;
-
+if ~isempty(obj.vc); obj.vc = obj.vc(newPts,:); end
+if ~isempty(obj.vn); obj.vn = obj.vn(newPts,:); end
 
 end
