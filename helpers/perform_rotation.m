@@ -3,7 +3,7 @@ function [obj,rotM] = perform_rotation(obj,rotation,varargin)
 %   rotation is applied.
 %
 % Inputs:
-% 	obj       -  obj struct to rotate
+%   obj       -  obj struct to rotate
 % 	rotation  -  rotation (in degrees). this variable can be: integer (in
 % 	   this case specify an axis using optional args), 1x3 array (rotation
 % 	   for each axis), or a 4x4 rotation matrix
