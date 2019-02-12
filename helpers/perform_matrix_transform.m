@@ -1,12 +1,13 @@
-function [obj] = perform_matrix_transform(obj,trans)
+function [obj,transM] = perform_matrix_transform(obj,trans)
 % Applies a list of transformation matrices. Transformations are applied in
 %   the order they are given. 
 %
 % Inputs:
-% 	obj    -  obj struct to transform 
-%   trans  -  cell array of 4x4 transformation matrices
+%   obj     -  obj struct to transform 
+%   trans   -  cell array of 4x4 transformation matrices
 % Outputs: 
-%   obj    -  transformed obj
+%   obj     -  transformed obj
+%   transM  -  composed transformation matrix
 % 
 % Local Dependancies:
 %   none
