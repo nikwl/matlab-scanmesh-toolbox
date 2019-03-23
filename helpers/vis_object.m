@@ -13,12 +13,12 @@ function [o,l] = vis_object(obj,varargin)
 %   o    -  generated patch object
 %   l    -  generated camlight
 %
-% Local Dependancies:
-%   none
-%
-% Note: 
-%
+% Local Dependancies
+%    perform_delete_unreferenced_vertices
+% 
 % Example: 
+%    obj = read_object('../test_files/duck.obj');
+%    [o,l] = vis_object(obj,'FaceColor','c','EdgeColor','k');
 %
 % Copyright (c) 2018 Nikolas Lamb
 %
@@ -54,14 +54,22 @@ if isempty(fcolor)
     coloremp = true;
 end
 
+% Remove any unreferenced vertices if present (this messes with patch)
+if length(obj.v) ~= length(obj.vc)
+    obj = perform_delete_unreferenced_vertices(obj);
+end
+
 % Define viewer
 axis equal
-hold on
 if rescale
-    xlim([min(obj.v(:,1)),max(obj.v(:,1))]);
-    ylim([min(obj.v(:,2)),max(obj.v(:,2))]);
-    zlim([min(obj.v(:,3)),max(obj.v(:,3))]);
-    view([max(obj.v(:,1)),max(obj.v(:,2)),max(obj.v(:,3))]);
+    % Find max and min referenced vertices
+    mini = min(obj.v(horzcat(obj.f),:));
+    maxi = max(obj.v(horzcat(obj.f),:));
+    axis equal
+    xlim([mini(1),maxi(1)]);
+    ylim([mini(2),maxi(2)]);
+    zlim([mini(3),maxi(3)]);
+    view([maxi(1),maxi(2),maxi(3)]);
 end
 
 if (~isempty(obj.vc) && coloremp)
