@@ -57,3 +57,9 @@ and vertices after removal. Useful for removing identified artifacts or cleaning
 Methods to rotate, scale, and translate an object about a given axis, point or with a given matrix. 
 Each transformation returns a matrix, and matrices can be applied in sequence using matrix_transform.
 
+### Pathfinding 
+#### astar, dijkstra
+Given start and ending vertices, vertex list, and adjacency list, will return the shortest path between 
+two points. Implementation of dijkstra is essentially the same as astar with the cost function set to 
+increment by one for each edge. Boolean value within each function lets you visulize the process.
+
