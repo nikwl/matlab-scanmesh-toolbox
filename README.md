@@ -33,31 +33,35 @@ physical size which was scanned at the same time as the object to be scaled (I r
 Method to align two objects to one another. Requires selecting three points on each object. Object
 alignment is updated after every point, and the final point snaps the objects using ICP.
 
-### Recompute Normals
-#### perform_recompute_facenormals
-Method that recomputes an object's vertex normals and face normals.
-
-### Connected Components
-#### compute_connectedcomponents
-Method to devide an object into its connected components. Useful to identify small artifacts. 
-
-### Finding Faces or Vertices
-#### compute_find_faces, compute_find_vertices
-Methods that return all faces that refernce a list of vertices, or returns all vertices that are 
-referenced by a list of faces. 
-
-### Deleting Vertices
-#### perform_delete_vertices, perform_delete_duplicate_vertices, perform_delete_unreferenced_vertices
-Methods that delete a list of vertices from an object, identify and remove duplicate vertices 
-from an object, or remove vertices that are not referenced in the face list. Cleans up faces and 
-and vertices after removal. Useful for removing identified artifacts or cleaning up an object. 
-
-### Object Transforms
+### Transform Object
 #### perform_rotation, perform_scaling, perform_translation, perform_matrix_transform
 Methods to rotate, scale, and translate an object about a given axis, point or with a given matrix. 
 Each transformation returns a matrix, and matrices can be applied in sequence using matrix_transform.
 
-### Pathfinding 
+### Recompute Object Normals
+#### perform_recompute_facenormals
+Method that recomputes an object's vertex normals and face normals.
+
+### Delete Specific Vertices
+#### perform_delete_vertices, perform_delete_duplicate_vertices, perform_delete_unreferenced_vertices
+Methods that delete a list of vertices from an object, identify and remove duplicate vertices 
+from an object, or remove vertices that are not referenced in the face list. Cleans up faces and 
+and vertices after removal. Useful for removing identified artifacts or cleaning up an object.
+
+### Find Connected Components
+#### compute_connectedcomponents
+Method to devide an object into its connected components. Useful to identify small artifacts. 
+
+### Find Specific Faces or Vertices
+#### compute_find_faces, compute_find_vertices
+Methods that return all faces that refernce a list of vertices, or returns all vertices that are 
+referenced by a list of faces.  
+
+### Compute Edges and Adjacencies
+#### compute_adjacencylist, compute_adjacencymatrix, compute_edges
+Methods to compute the adjacencies of an object, or edges of an object in stable or sorted order.
+
+### Surface Pathfinding 
 #### astar, dijkstra
 Given start and ending vertices, vertex list, and adjacency list, will return the shortest path between 
 two points. Implementation of dijkstra is essentially the same as astar with the cost function set to 
