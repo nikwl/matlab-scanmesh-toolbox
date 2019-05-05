@@ -1,8 +1,8 @@
-function [adjacencies] = compute_adjacencylist(obj,varargin)
-% Returns a cell array representing a list of all vertex connections in an
-%   object. Connections are returned as a list of lists. To find the
-%   adjacencies of the i'th vertex in the object, use 'adjacencies{i}'.
-%   Will create empty entries for unreferenced vertices.
+function [adjacencies] = compute_adjacencymatrix(obj,varargin)
+% Returns a sparse matrix corresponding to vertex connections on the
+%   object. To find the adjacencies of the i'th vertex, use
+%   adjacencies(i,:). If a vertex has no adjacencies that row will be
+%   empty.  
 %
 % Inputs:
 % 	obj          -  object struct
@@ -10,9 +10,9 @@ function [adjacencies] = compute_adjacencylist(obj,varargin)
 %      directed    -  assumes directed mesh (default)
 %      undirected  -  assumes undirected mesh
 % Outputs: 
-%   adjacencies  -  cell array of vertex connections
+%   adjacencies  -  nxn sparse adjacency matrix
 %
-% Copyright (c) 2018 Nikolas Lamb
+% Copyright (c) 2019 Nikolas Lamb
 %
 
 % Define flags and specifiers
@@ -26,40 +26,15 @@ if length(varargin) ~= 0
     [flagvals,specvals] = parse_function_input(flags,flagvals,specs,specvals,varargin);
 end
 
-% Initializes array with this many connections (ive never seen more than 14)
-mostConnections = 15;
-
 % Compute edges
 if flagvals(1)
-    edges = compute_edges(obj,'directed','sorted');
+    edges = compute_edges(obj,'directed');
 else
     edges = compute_edges(obj,'undirected');
 end
 
-% Extract the greatest index, this is the length of the list
-greatestIndex = max(edges(:,1));
-
-% Initialize adjacencies and index counter
-idxs = ones(greatestIndex,1);
-adjacenciesWZeros = zeros(greatestIndex,mostConnections);
-
-% Add second vertex to the last unocupied column at row first vertex
-for i = 1:length(edges)
-    id = edges(i,1);
-    adjacenciesWZeros(id,idxs(id)) = edges(i,2);
-    idxs(id) = idxs(id) + 1;
-end
-
-% Preallocate adjacency list
-adjacencies{greatestIndex} = [];
-
-% Remove zeros
-for i = 1:greatestIndex
-    adjacencies{i} = [nonzeros(adjacenciesWZeros(i,:))]';
-end
-
-% Transpose adjacency list because it makes more sense that way
-adjacencies = adjacencies';
+% First edge col is rows, second edge col is columns 
+adjacencies = sparse(edges(:,1),edges(:,2),ones(length(edges),1));
 
 end
 
@@ -108,3 +83,13 @@ if flagvals(1) || flagvals(2)
 end
 
 end
+
+% OTHER METHODS:
+%
+% Fast for directed mesh
+% [adjacencies] = compute_adjacencymatrix(obj)
+% facesT = obj.f';
+% facesSwT =[obj.f(:,2),obj.f(:,3),obj.f(:,1)]';
+% 
+% adjacencies = sparse(facesT(:),facesSwT(:),ones(length(obj.f)*3,1));
+% end

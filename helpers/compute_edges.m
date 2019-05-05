@@ -1,23 +1,23 @@
-function [adjacencies] = compute_adjacencylist(obj,varargin)
-% Returns a cell array representing a list of all vertex connections in an
-%   object. Connections are returned as a list of lists. To find the
-%   adjacencies of the i'th vertex in the object, use 'adjacencies{i}'.
-%   Will create empty entries for unreferenced vertices.
+function [edges] = compute_edges(obj,varargin)
+% Returns a list of all edges in the object. 
 %
 % Inputs:
-% 	obj          -  object struct
+% 	 obj    -  object struct
 %   optional args:
+%      stable      -  returns edges such that the i'th edge belongs to the
+%        ceil(i/3)th face (default)
+%      sorted      -  returns edges sorted by occurance in vertex list
 %      directed    -  assumes directed mesh (default)
 %      undirected  -  assumes undirected mesh
 % Outputs: 
-%   adjacencies  -  cell array of vertex connections
+% 	 edges  -  nx2 list of edges
 %
 % Copyright (c) 2018 Nikolas Lamb
 %
 
 % Define flags and specifiers
-flags       = ["directed" "undirected"];    
-flagvals    = [1 0];
+flags       = ["stable" "sorted" "directed" "undirected"];    
+flagvals    = [1 0 1 0];
 specs       = [];
 specvals    = [];
 
@@ -26,40 +26,22 @@ if length(varargin) ~= 0
     [flagvals,specvals] = parse_function_input(flags,flagvals,specs,specvals,varargin);
 end
 
-% Initializes array with this many connections (ive never seen more than 14)
-mostConnections = 15;
-
-% Compute edges
-if flagvals(1)
-    edges = compute_edges(obj,'directed','sorted');
-else
-    edges = compute_edges(obj,'undirected');
+% Directed
+if flagvals(3)
+    facesT = obj.f';
+    facesSwT =[obj.f(:,2),obj.f(:,3),obj.f(:,1)]';
+    edges = [facesT(:),facesSwT(:)];
+    
+    % Sort
+    if flagvals(2)
+        edges = unique(edges,'rows');
+    end
+else % Undirected 
+    facesT = obj.f';
+    facesSwT =[obj.f(:,2),obj.f(:,3),obj.f(:,1)]';
+    edges = [facesT(:),facesSwT(:);facesSwT(:),facesT(:)];
+    edges = unique(edges,'rows');
 end
-
-% Extract the greatest index, this is the length of the list
-greatestIndex = max(edges(:,1));
-
-% Initialize adjacencies and index counter
-idxs = ones(greatestIndex,1);
-adjacenciesWZeros = zeros(greatestIndex,mostConnections);
-
-% Add second vertex to the last unocupied column at row first vertex
-for i = 1:length(edges)
-    id = edges(i,1);
-    adjacenciesWZeros(id,idxs(id)) = edges(i,2);
-    idxs(id) = idxs(id) + 1;
-end
-
-% Preallocate adjacency list
-adjacencies{greatestIndex} = [];
-
-% Remove zeros
-for i = 1:greatestIndex
-    adjacencies{i} = [nonzeros(adjacenciesWZeros(i,:))]';
-end
-
-% Transpose adjacency list because it makes more sense that way
-adjacencies = adjacencies';
 
 end
 
@@ -101,10 +83,30 @@ end
 % Conditionals
 if flagvals(1) || flagvals(2) 
     if flagvals(1) && flagvals(2) 
-        error('Cant be both directed and undirected');
+        error('Cant be both stable and sorted');
     end
     flagdef(1) = flagvals(1);
     flagdef(2) = flagvals(2);
+end
+  
+if flagvals(3) || flagvals(4) 
+    if flagvals(3) && flagvals(4) 
+        error('Cant be both directed and undirected');
+    end
+    flagdef(3) = flagvals(3);
+    flagdef(4) = flagvals(4);
+end
+
+if flagvals(4) || flagvals(1)
+    if flagvals(1) && flagvals(4)
+        error('Cant be both stable and undirected');
+    elseif flagvals(1)
+        flagdef(3) = 1;
+        flagdef(4) = 0;
+    elseif flagvals(4)
+        flagdef(1) = 0;
+        flagdef(2) = 1;
+    end
 end
 
 end

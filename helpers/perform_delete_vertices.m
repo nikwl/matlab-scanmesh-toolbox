@@ -12,6 +12,11 @@ function [obj] = perform_delete_vertices(obj,vidxs)
 % Copyright (c) 2018 Nikolas Lamb
 %
 
+% Make sure there are actually vertices to delete
+if isempty(vidxs)
+   return 
+end
+
 % Generate list of all point indices, flag points to remove
 allPts = [1:length(obj.v)]';
 allPts(vidxs) = -1;
@@ -43,14 +48,46 @@ obj.f(:,3) = allPts(obj.f(:,3),3);
 % Find invalid references
 [r,~] = find(obj.f<1);
 
-% Remap face and face normal lists
-obj.f(r,:) = [];
-obj.ft(r,:) = [];
-obj.fn(r,:) = [];
+% Extract length of old face list
+flen = length(obj.f);
 
-% Remap vertex and vertex normal lists
+% Delete faces that referenced remove vertices
+obj.f(r,:) = [];
+
+% Avoids indexing errors when |fn| < |f|
+fnlen = length(obj.fn);
+if flen ~= fnlen
+    rnew = r(r < flen);
+    obj.fn(rnew,:) = [];
+    
+    % |fn| shouldnt be > |f|
+    if fnlen > flen
+        obj.fn(flen:end) = [];
+    end
+end
+
+% Extract length of old vertex list
+vlen = length(obj.v);
+
+% Remap vertices
 obj.v = obj.v(newPts,:);
-if ~isempty(obj.vc); obj.vc = obj.vc(newPts,:); end
-if ~isempty(obj.vn); obj.vn = obj.vn(newPts,:); end
+
+% Avoids indexing errors when |vc| < |v|
+vclen = length(obj.vc);
+if vlen ~= vclen
+    vcNewPts = newPts(newPts < vclen);
+    obj.vc = obj.vc(vcNewPts,:);
+else
+    obj.vc = obj.vc(newPts,:);
+end
+
+% Avoids indexing errors when |vn| < |f|
+vnlen = length(obj.vn);
+if vlen ~= vnlen    
+    vnNewPts = newPts(newPts < vnlen);
+    obj.vn = obj.vn(vnNewPts,:);
+else
+    obj.vn = obj.vn(newPts,:);
+end
 
 end
