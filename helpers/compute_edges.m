@@ -2,7 +2,7 @@ function [edges] = compute_edges(obj,varargin)
 % Returns a list of all edges in the object. 
 %
 % Inputs:
-% 	 obj    -  object struct
+% 	obj    -  object struct
 %   optional args:
 %      stable      -  returns edges such that the i'th edge belongs to the
 %        ceil(i/3)th face (default)
