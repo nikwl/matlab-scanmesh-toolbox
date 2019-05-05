@@ -34,7 +34,7 @@ if flagvals(3)
     
     % Sort
     if flagvals(2)
-        edges = unique(edges,'rows');
+        edges = sortrows(edges);
     end
 else % Undirected 
     facesT = obj.f';
