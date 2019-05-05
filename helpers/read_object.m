@@ -25,6 +25,7 @@ function [obj] = read_object(fname)
 % Copyright (c) 2018 Nikolas Lamb
 %
 
+try
 % Open the file
 fid=fopen(fname);
 
@@ -55,7 +56,7 @@ end
 if isempty(maxs)
     % Use system call to determine length of file
     if (ismac || isunix)
-        [status, cmdout]= system(['wc -l',fname]);
+        [status, cmdout]= system(char(['wc -l',fname]));
         if(status~=1)
             scanCell = textscan(cmdout,'%u %s');
             maxs(1) = scanCell{3};
@@ -188,5 +189,11 @@ obj.fn = fn;
 
 % Close file
 fclose(fid);
+
+catch ME
+    fclose(fid);
+    error(ME.message);
+end
+
 
 end
