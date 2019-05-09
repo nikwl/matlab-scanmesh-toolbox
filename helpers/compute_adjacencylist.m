@@ -10,7 +10,7 @@ function [adjacencies] = compute_adjacencylist(obj,varargin)
 %      directed    -  assumes directed mesh (default)
 %      undirected  -  assumes undirected mesh
 % Outputs: 
-%   adjacencies  -  cell array of vertex connections
+%   adjacencies  -  |v| cell array of vertex connections
 %
 % Copyright (c) 2018 Nikolas Lamb
 %

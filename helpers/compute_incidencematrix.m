@@ -1,8 +1,7 @@
-function [adjacencies] = compute_adjacencymatrix(obj,varargin)
-% Returns a sparse matrix corresponding to vertex connections on the
-%   object. To find the adjacencies of the i'th vertex, use
-%   adjacencies(i,:). If a vertex has no adjacencies that row will be
-%   empty.  
+function [incidence] = compute_incidencematrix(obj,varargin)
+% Returns a sparse matrix corresponding to edge incidence. Matrix has a row
+%   for each vertex and a column for each edge, and (v,e) = 1 iff v is
+%   incident upon edge e. 
 %
 % Inputs:
 % 	obj          -  object struct
@@ -10,7 +9,7 @@ function [adjacencies] = compute_adjacencymatrix(obj,varargin)
 %      directed    -  assumes directed mesh (default)
 %      undirected  -  assumes undirected mesh
 % Outputs: 
-%   adjacencies  -  |v| x |v| sparse adjacency matrix
+%   adjacencies  -  |v| x |e| sparse incidence matrix
 %
 % Copyright (c) 2019 Nikolas Lamb
 %
@@ -33,8 +32,8 @@ else
     edges = compute_edges(obj,'undirected');
 end
 
-% First edge col is rows, second edge col is columns 
-adjacencies = sparse(edges(:,1),edges(:,2),ones(length(edges),1));
+% Rows are values of edges, columns are placement of edges
+incidence = sparse(edges(:),repmat(1:length(edges),1,2),ones(length(edges*2),1));
 
 end
 
@@ -83,13 +82,3 @@ if flagvals(1) || flagvals(2)
 end
 
 end
-
-% OTHER METHODS:
-%
-% Fast for directed mesh
-% [adjacencies] = compute_adjacencymatrix(obj)
-% facesT = obj.f';
-% facesSwT =[obj.f(:,2),obj.f(:,3),obj.f(:,1)]';
-% 
-% adjacencies = sparse(facesT(:),facesSwT(:),ones(length(obj.f)*3,1));
-% end
