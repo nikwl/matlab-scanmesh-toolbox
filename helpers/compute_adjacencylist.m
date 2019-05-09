@@ -12,6 +12,9 @@ function [adjacencies] = compute_adjacencylist(obj,varargin)
 % Outputs: 
 %   adjacencies  -  |v| cell array of vertex connections
 %
+% Local Dependancies:
+%   compute_edges
+%
 % Copyright (c) 2018 Nikolas Lamb
 %
 

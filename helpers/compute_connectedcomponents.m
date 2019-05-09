@@ -1,13 +1,13 @@
 function [components] = compute_connectedcomponents(obj)
 % Segments object into groups of points. The number of elements in the
-%    returned cell array will determine number of independant segments in
+%    returned cell array will determine number of independant components in
 %    obj. Useful in tandem with perform_delete_vertices to remove artifacts  
 %    that you can't easily see in a wysiwyg editor. 
 %
 % Inputs:
 % 	obj        -  object struct
 % Outputs: 
-%   divisions  -  mxn cell array of segments containing point indices
+%   divisions  -  |cc| x n cell array of segments containing point indices
 %
 % Local Dependancies:
 %   compute_adjacencylist
@@ -27,44 +27,37 @@ connectedPoints = horzcat(adjacencies{:});
 
 % Initialize loop variables
 seeds = connectedPoints;
+covered = [];
 i = 1;
-components{1} = [];
-exclude = [];
-includeall = [];
-
-% Loop conditionals
-a = true;
-b = true;
 
 % Segment the object
-while b
+while true
     % Initialize loop variables
-    temp = setdiff(seeds,[exclude,includeall']);
+    temp = setdiff(seeds,covered');
     next = temp(1);
-    incl = next;
+    include = next;
    
     % Segment the object, using next like a wave bounded by excl
-    while a
+    while true
         next = horzcat(adjacencies{next})';
-        next = setdiff(next,[exclude,incl']);
-        incl = [incl;next];
+        next = setdiff(next,[include']);
+        include = [include;next];
         if isempty(next)
-            a = false;
+            break;
         end 
     end
     
     % Add inclusions to the count
-    components{i} = incl;
-    includeall = [includeall;incl];
+    components{i} = include;
+    covered = [covered;include];
     
     % Check if there are no more possible
-    seeds = setdiff(connectedPoints,[exclude,includeall']);
+    seeds = setdiff(connectedPoints,covered');
     
     % Break if there are none else create a new division
     if isempty(seeds)
-        b = false;
+        break;
     else
-        a = true;
         i = i + 1;
     end
 end

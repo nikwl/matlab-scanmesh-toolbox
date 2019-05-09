@@ -11,6 +11,9 @@ function [incidence] = compute_incidencematrix(obj,varargin)
 % Outputs: 
 %   adjacencies  -  |v| x |e| sparse incidence matrix
 %
+% Local Dependancies:
+%   compute_edges
+%
 % Copyright (c) 2019 Nikolas Lamb
 %
 

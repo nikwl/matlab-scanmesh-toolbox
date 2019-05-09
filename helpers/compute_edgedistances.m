@@ -8,8 +8,8 @@ function [edgedists,edges] = compute_edgedistances(obj)
 % Inputs:
 % 	obj        -  object struct
 % Outputs: 
-%   edgedists  -  nx1 list of edge distances
-% 	edges      -  nx2 list of edges
+%   edgedists  -  |e| x 1 list of edge distances
+% 	edges      -  |e| x 2 list of edges
 %
 % Copyright (c) 2019 Nikolas Lamb
 %

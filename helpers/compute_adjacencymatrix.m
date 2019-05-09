@@ -12,6 +12,9 @@ function [adjacencies] = compute_adjacencymatrix(obj,varargin)
 % Outputs: 
 %   adjacencies  -  |v| x |v| sparse adjacency matrix
 %
+% Local Dependancies:
+%   compute_edges
+%
 % Copyright (c) 2019 Nikolas Lamb
 %
 
