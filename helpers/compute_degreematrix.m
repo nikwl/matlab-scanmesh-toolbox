@@ -1,15 +1,17 @@
 function [degree] = compute_degreematrix(obj,varargin)
-% Returns a sparse matrix corresponding to edge incidence. Matrix has a row
-%   for each vertex and a column for each edge, and (v,e) = 1 iff v is
-%   incident upon edge e. 
+% Returns a sparse matrix with the diagonal corresponding to the number of 
+%   edge connected to each vertex. Matrix has a row and colum for each 
+%   vertex such that degree(i,i) = number of connecting edges. Because
+%   object is defined by faces, indegree and outdegree will always be the
+%   same.
 %
 % Inputs:
-% 	obj          -  object struct
+% 	obj     -  object struct
 %   optional args:
 %      directed    -  assumes directed mesh (default)
 %      undirected  -  assumes undirected mesh
 % Outputs: 
-%   adjacencies  -  |v| x |e| sparse incidence matrix
+%   degree  -  |v| x |v| sparse degree matrix
 %
 % Local Dependancies:
 %   compute_edges
@@ -19,7 +21,7 @@ function [degree] = compute_degreematrix(obj,varargin)
 
 % Define flags and specifiers
 flags       = ["directed" "undirected"];    
-flagvals    = [1 0];
+flagvals    = [1 0 1 0];
 specs       = [];
 specvals    = [];
 

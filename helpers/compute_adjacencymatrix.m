@@ -8,7 +8,7 @@ function [adjacencies] = compute_adjacencymatrix(obj,varargin)
 % 	obj          -  object struct
 %   optional args:
 %      directed    -  assumes directed mesh (default)
-%      undirected  -  assumes undirected mesh
+%      undirected  -  assumes undirected mesh, ie symmetric edges
 % Outputs: 
 %   adjacencies  -  |v| x |v| sparse adjacency matrix
 %
