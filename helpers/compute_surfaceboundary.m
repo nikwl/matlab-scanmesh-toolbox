@@ -28,6 +28,12 @@ symmetricEdges = [edges;edges(:,2),edges(:,1)];
 boundaryEdgeIdxs = setdiff(u,[1:length(obj.f*3)*3]) - length(obj.f*3)*3;
 boundaryEdges = edges(boundaryEdgeIdxs,:);
 
+% No boundary edges, mesh is closed
+if isempty(boundaryEdges)
+    boundaries = [];
+    return;
+end
+
 % Initialize loop vairables
 j = 1;
 k = 1;
