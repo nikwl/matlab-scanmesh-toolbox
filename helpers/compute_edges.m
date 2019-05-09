@@ -10,7 +10,7 @@ function [edges] = compute_edges(obj,varargin)
 %      directed    -  assumes directed mesh (default)
 %      undirected  -  assumes undirected mesh
 % Outputs: 
-% 	 edges  -  nx2 list of edges
+% 	 edges  -  |e| x 2 list of edges
 %
 % Copyright (c) 2018 Nikolas Lamb
 %

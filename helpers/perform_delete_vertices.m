@@ -5,7 +5,7 @@ function [obj] = perform_delete_vertices(obj,vidxs)
 %
 % Inputs:
 % 	 obj    -  object struct
-% 	 vidxs  -  nx1 list of vertex indices
+% 	 vidxs  -  n x 1 list of vertex indices
 % Outputs: 
 % 	 obj    -  object struct with specified vertices removed
 %

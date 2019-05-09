@@ -3,7 +3,7 @@ function [obj,scaleM] = perform_scaling(obj,scale)
 %
 % Inputs:
 % 	obj     -  obj struct to rotate
-% 	scale   -  1x3 vector of scale values or 4x4 scale matrix
+% 	scale   -  1 x 3 vector of scale values or 4x4 scale matrix
 % Outputs: 
 %   obj     -  scaled object struct
 %   scaleM  -  homogenous 4x4 scaling matrix
