@@ -28,7 +28,7 @@ function [path,dist,steps] = dijkstra(start,finish,vertices,adjacencies,path)
 %
 
 % If you'd like to watch the function run
-vis = true;
+vis = false;
 
 % Determine number of vertices
 [num_points,~] = size(vertices);

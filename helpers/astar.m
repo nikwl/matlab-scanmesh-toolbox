@@ -31,7 +31,7 @@ function [path,dist,steps] = astar(start,finish,vertices,adjacencies,path)
 exponenet = 1;
 
 % If you'd like to watch the function run
-vis = true;
+vis = false;
 
 % Determine number of vertices
 [num_points,~] = size(vertices);
