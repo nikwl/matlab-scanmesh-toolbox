@@ -13,7 +13,7 @@ function [o,l] = vis_object(obj,varargin)
 %   o    -  generated patch object
 %   l    -  generated camlight
 %
-% Local Dependancies
+% Local Dependancies:
 %    perform_delete_unreferenced_vertices
 % 
 % Example: 
@@ -72,14 +72,15 @@ if rescale
     view([maxi(1),maxi(2),maxi(3)]);
 end
 
+% Use patch to display obj
 if (~isempty(obj.vc) && coloremp)
-    % Use patch to display obj
     o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor',ecolor,'FaceVertexCData',obj.vc,'Tag',tag);
     o.FaceColor = 'interp';
+    material([.6,.5,0])
     l = camlight;
 else
-    % Use patch to display obj
     o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor',ecolor,'FaceColor',fcolor,'Tag',tag);
+    material([.6,.5,0])
     l = camlight;
 end
 
