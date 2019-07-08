@@ -18,7 +18,7 @@ Methods to read and write .obj files. These files will parse vertices, vertex no
 faces, face normals, and face textures. Does not save any material or texture files. As far as I know
 this is the fastest existing .obj reader implementation for matlab. 
 
-### Object Visulization
+### Object Visualization
 #### vis_object, vis_object_segment
 Methods to visulize objects using matlab's patch function. vis_object displays the entire object in 
 a single color, while vis_object_segment will highlight a specific part of the object. 
