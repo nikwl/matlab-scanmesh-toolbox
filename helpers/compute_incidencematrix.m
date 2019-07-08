@@ -21,15 +21,18 @@ function [incidence] = compute_incidencematrix(obj,varargin)
 flags       = ["directed" "undirected"];    
 flagvals    = [1 0];
 specs       = [];
-specvals    = [];
+specvals    = {[]};
 
 % Parse input
-if length(varargin) ~= 0
+if ~isempty(varargin)
     [flagvals,specvals] = parse_function_input(flags,flagvals,specs,specvals,varargin);
 end
 
+% Interpret input
+directed = flagvals(1);
+
 % Compute edges
-if flagvals(1)
+if directed
     edges = compute_edges(obj,'directed');
 else
     edges = compute_edges(obj,'undirected');
@@ -40,10 +43,10 @@ incidence = sparse(edges(:),repmat(1:length(edges),1,2),ones(length(edges*2),1))
 
 end
 
-function [flagdef,specdef] = parse_function_input(flags,flagdef,specs,specdef,v)
+function [flagdef,specvals] = parse_function_input(flags,flagdef,specs,specdef,v)
 
 flagvals = zeros(1,length(flags));
-specvals = zeros(1,length(specs));
+specvals = specdef;
 
 i = 1;
 while i <= length(v)
@@ -61,12 +64,12 @@ while i <= length(v)
         flagvals(foundloc) = 1;        
     else % Identifier is a specifier
         if i < length(v)
-            if ~any(strcmpi(v{i+1},[flags,specs]))
-                specvals(foundloc-length(flags)) = v{i+1};
+            if any(strcmpi(v{i+1},specdef{foundloc}))
+                specvals{foundloc} = [v{i+1},""];
                 i = i + 2;
                 continue
             else
-                error('Specifier given with no value');
+                error('Specifier given with unknown value');
             end
         else
             error('Specifier given with no value');

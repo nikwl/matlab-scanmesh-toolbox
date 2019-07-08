@@ -1,15 +1,25 @@
-function [] = vis_fill_camera()
+function [] = vis_fill_camera(fig)
 % Roughly equalizes the viewing space of the current figure so that it 
 %   mimics the aspect ratio of the figure window. 
+%
+% Inputs:
+%   fig  - (optional) handle of figure to adjust 
 %
 % Copyright (c) 2019 Nikolas Lamb
 %
 
+% Set input figure as current
+if exist('fig','var')
+    set(0, 'CurrentFigure', fig);
+else
+    fig = gcf;
+end
+
 % Get the resolution of the figure window
-pos = get(gcf, 'Position');
+pos = get(fig, 'Position');
 
 % Height to width ratio
-r = pos(4) ./ pos(3);
+r = pos(3) ./ pos(4);
 
 % Get height of z axis
 z_limit = zlim;
