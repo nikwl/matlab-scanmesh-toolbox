@@ -1,6 +1,6 @@
 # matlab-scanmesh-toolbox
 ## Overview
-This is a toolbox of matlab functions to import, process, and export 3D meshes. 
+This is a toolbox of matlab functions to import, visulize, process, and export 3D meshes. 
 
 Primary appliation is for processing scanned 3D meshes. Our lab generates 
 3D reconstructions using photogrammetry software with extremely high resolution input images. 
@@ -18,10 +18,23 @@ Methods to read and write .obj files. These files will parse vertices, vertex no
 faces, face normals, and face textures. Does not save any material or texture files. As far as I know
 this is the fastest existing .obj reader implementation for matlab. 
 
-### Visulization
-#### vis_object vis_object_segment
+### Object Visulization
+#### vis_object, vis_object_segment
 Methods to visulize objects using matlab's patch function. vis_object displays the entire object in 
 a single color, while vis_object_segment will highlight a specific part of the object. 
+
+### Camera and Figure Tools
+#### vis_copy_camera, vis_paste_camera, vis_fill_camera, vis_change_background
+Copy and paste are methods to save and apply the current camera orientation and target, as well as xyz
+limits. Fill camera expands or shrinks the xyz limits of the figure to the edges of the figure so that
+the object is easier to see. Change background removes the axis from a figure and replaces the background 
+with a solid specified color. 
+
+### Colorize
+#### colorize_recolor, colorize_curvature, colorize_centroiddistance
+Recolor will recolor an input object to the specified color. Colorize curvature uses a simple approach to 
+color vertices based on the placement of their adjacencies. Colorize centroid distance color vertices 
+based on their distance from the object's center of mass. 
 
 ### Rescale Object with Known Ground-Truth
 #### perform_manual_rescale
