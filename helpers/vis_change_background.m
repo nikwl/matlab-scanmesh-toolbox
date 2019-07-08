@@ -20,30 +20,7 @@ if isempty(color)
     error('Color was of unknown type. Specify color as a matrx, vector or character.')
 end
 
-if ischar(color)
-    switch color
-        case 'y'
-            color = [1 1 0];
-        case 'm'
-            color = [1 0 1];
-        case 'c'
-            color = [0 1 1];
-        case ' r'
-            color = [1 0 0];
-        case 'g' 
-            color = [0 1 0];
-        case 'b'
-            color = [0 0 1];
-        case 'w' 
-            color = [1 1 1];
-        case 'k'
-            color = [0 0 0];
-        otherwise 
-            error('Unknown color character.')
-    end
-end
-
-if ~isvector(color)
+if ~isvector(color) && ~ischar(color) 
     error('Color was of unknown type. Specify color as a matrx, vector or character.') 
 end
 

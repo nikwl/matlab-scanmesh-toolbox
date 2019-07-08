@@ -26,7 +26,7 @@ if ischar(color)
             color = [1 0 1];
         case 'c'
             color = [0 1 1];
-        case ' r'
+        case 'r'
             color = [1 0 0];
         case 'g' 
             color = [0 1 0];
