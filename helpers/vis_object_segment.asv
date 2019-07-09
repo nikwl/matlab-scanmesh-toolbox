@@ -1,4 +1,4 @@
-function [fig,o,so,l] = vis_object_segment(obj,poi,select,varargin)
+function [o,so,l] = vis_object_segment(obj,poi,select,varargin)
 % Visulizes a portion of an object in red, the rest in cyan, using matlab's 
 %    patch function. Does not apply texture information. Useful for
 %    identifying regions of an object visually. 
@@ -37,18 +37,11 @@ defaultSegEdgeColor = 'n';
 defaultRescale = true;
 defaultTag = '1a';
 defaultSegTag = '1b';
-defaultFig = gcf;
 
 if ~exist('select','var')
-   select = 'Faces';
+   select = 'faces';
 elseif ~any(strcmp({'Faces','Vertices'},select))
    error('Unknown input for select. Choices: Faces, Vertices');
-end
-
-if strcmp(select,'Faces')
-    defaultSegEdgeColor = 'n';
-elseif strcmp(select,'Vertices')
-    defaultSegEdgeColor = 'k';
 end
 
 addRequired(p,'obj',@isstruct);
@@ -61,7 +54,6 @@ addParameter(p,'SegEdgeColor',defaultSegEdgeColor,@ischar);
 addParameter(p,'Rescale',defaultRescale);
 addParameter(p,'Tag',defaultTag);
 addParameter(p,'SegTag',defaultSegTag);
-addParameter(p,'Fig',defaultFig);
 
 parse(p,obj,poi,select,varargin{:});
 
@@ -76,7 +68,6 @@ segedgecolor = p.Results.SegEdgeColor;
 rescale = p.Results.Rescale;
 tag = p.Results.Tag;
 segtag = p.Results.SegTag;
-fig = p.Results.Fig;
 
 if strcmp(select,'Faces')
     % Extract faces
@@ -86,14 +77,14 @@ if strcmp(select,'Faces')
     obj.f = setdiff(obj.f,sobj.f,'rows');
 
     % Use patch to display obj with color corlation
-    [fig,o,l] = vis_object(obj,'FaceColor',facecolor,'EdgeColor',edgecolor,'Rescale',rescale,'Tag',tag,'Fig',fig);
+    [o,l] = vis_object(obj,'FaceColor',facecolor,'EdgeColor',edgecolor,'Rescale',rescale,'Tag',tag);
     delete(l);
-    [so,l] = vis_object(sobj,'FaceColor',segfacecolor,'EdgeColor',segedgecolor,'Rescale',false,'Tag',segtag,'Fig',fig);
+    [so,l] = vis_object(sobj,'FaceColor',segfacecolor,'EdgeColor',segedgecolor,'Rescale',false,'Tag',segtag);
     drawnow
 elseif strcmp(select,'Vertices')
     verts = obj.v(poi,:);
     % Use patch to display obj with color corlation
-    [fig,o,l] = vis_object(obj,'FaceColor',facecolor,'EdgeColor',edgecolor,'Rescale',rescale,'Tag',tag,'Fig',fig);
+    [o,l] = vis_object(obj,'FaceColor',facecolor,'EdgeColor',edgecolor,'Rescale',rescale,'Tag',tag);
     hold on
     so = scatter3(verts(:,1),verts(:,2),verts(:,3),100,segfacecolor,'filled','MarkerEdgeColor',segedgecolor,'Tag',segtag);
 end
