@@ -1,4 +1,4 @@
-function [o,l] = vis_object(obj,varargin)
+function [fig,o,l] = vis_object(obj,varargin)
 % Visulizes an object in cyan using matlab's patch function. Does not 
 %    apply texture information. Useful for visual object analysis. 
 %
@@ -13,7 +13,7 @@ function [o,l] = vis_object(obj,varargin)
 %   o    -  generated patch object
 %   l    -  generated camlight
 %
-% Local Dependancies
+% Local Dependancies:
 %    perform_delete_unreferenced_vertices
 % 
 % Example: 
@@ -29,12 +29,14 @@ defaultFColor = [];
 defaultEcolor = 'n';
 defaultRescale = true;
 defaultTag = '1a';
+defaultFig = gcf;
 
 addRequired(p,'obj',@isstruct);
 addParameter(p,'FaceColor',defaultFColor,@ischar);
 addParameter(p,'EdgeColor',defaultEcolor,@ischar);
 addParameter(p,'Rescale',defaultRescale);
 addParameter(p,'Tag',defaultTag);
+addParameter(p,'Fig',defaultFig);
 
 parse(p,obj,varargin{:});
 
@@ -44,6 +46,10 @@ fcolor = p.Results.FaceColor;
 ecolor = p.Results.EdgeColor;
 rescale = p.Results.Rescale;
 tag = p.Results.Tag;
+fig = p.Results.Fig;
+
+% Set fig as current
+set(0, 'CurrentFigure', fig)
 
 % Empty pass trackers
 coloremp = false;
@@ -72,14 +78,15 @@ if rescale
     view([maxi(1),maxi(2),maxi(3)]);
 end
 
+% Use patch to display obj
 if (~isempty(obj.vc) && coloremp)
-    % Use patch to display obj
     o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor',ecolor,'FaceVertexCData',obj.vc,'Tag',tag);
     o.FaceColor = 'interp';
+    material([.6,.5,0])
     l = camlight;
 else
-    % Use patch to display obj
     o = patch('Vertices',obj.v,'Faces',obj.f,'EdgeColor',ecolor,'FaceColor',fcolor,'Tag',tag);
+    material([.6,.5,0])
     l = camlight;
 end
 
