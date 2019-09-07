@@ -1,16 +1,17 @@
-function [adjacencies] = compute_adjacencymatrix(obj,varargin)
-% Returns a sparse matrix corresponding to vertex connections on the
-%   object. To find the adjacencies of the i'th vertex, use
-%   adjacencies(i,:). If a vertex has no adjacencies that row will be
-%   empty.  
+function [degree] = compute_degreematrix(obj,varargin)
+% Returns a sparse matrix with the diagonal corresponding to the number of 
+%   edge connected to each vertex. Matrix has a row and colum for each 
+%   vertex such that degree(i,i) = number of connecting edges. Because
+%   object is defined by faces, indegree and outdegree will always be the
+%   same.
 %
 % Inputs:
-% 	obj          -  object struct
+% 	obj     -  object struct
 %   optional args:
 %      directed    -  assumes directed mesh (default)
-%      undirected  -  assumes undirected mesh, ie symmetric edges
+%      undirected  -  assumes undirected mesh
 % Outputs: 
-%   adjacencies  -  |v| x |v| sparse adjacency matrix
+%   degree  -  |v| x |v| sparse degree matrix
 %
 % Local Dependancies:
 %   compute_edges
@@ -20,7 +21,7 @@ function [adjacencies] = compute_adjacencymatrix(obj,varargin)
 
 % Define flags and specifiers
 flags       = ["directed" "undirected"];    
-flagvals    = [1 0];
+flagvals    = [1 0 1 0];
 specs       = [];
 specvals    = [];
 
@@ -29,15 +30,15 @@ if length(varargin) ~= 0
     [flagvals,specvals] = parse_function_input(flags,flagvals,specs,specvals,varargin);
 end
 
-% Compute edges
+% Compute adjacency matrix
 if flagvals(1)
-    edges = compute_edges(obj,'directed');
+    adjacencies = compute_adjacencymatrix(obj,'directed');
 else
-    edges = compute_edges(obj,'undirected');
+    adjacencies = compute_adjacencymatrix(obj,'undirected');
 end
 
-% First edge col is rows, second edge col is columns 
-adjacencies = sparse(edges(:,1),edges(:,2),ones(length(edges),1));
+% Degree is the sum of the row of the adjacency matrix
+degree = sparse(1:length(adjacencies),1:length(adjacencies),full(sum(adjacencies,2)));
 
 end
 
@@ -86,13 +87,3 @@ if flagvals(1) || flagvals(2)
 end
 
 end
-
-% OTHER METHODS:
-%
-% Fast for directed mesh
-% [adjacencies] = compute_adjacencymatrix(obj)
-% facesT = obj.f';
-% facesSwT =[obj.f(:,2),obj.f(:,3),obj.f(:,1)]';
-% 
-% adjacencies = sparse(facesT(:),facesSwT(:),ones(length(obj.f)*3,1));
-% end

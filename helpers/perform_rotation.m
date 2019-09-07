@@ -8,9 +8,9 @@ function [obj,rotM] = perform_rotation(obj,rotation,varargin)
 % 	   this case specify an axis using optional args), 1x3 array (rotation
 % 	   for each axis), or a 4x4 rotation matrix
 % 	optional args:
-%      Origin  -  1x3 rotate about a given point
-%      Order   -  1x3 order in which to apply rotations
-%      Axis    -  2x3 two points defining a custom axis, [origin; up]
+%      Origin  -  1 x 3 rotate about a given point
+%      Order   -  1 x 3 order in which to apply rotations
+%      Axis    -  2 x 3 two points defining a custom axis, [origin; up]
 % Outputs: 
 %   obj       -  rotated obj struct
 %   rotM      -  homogenous 4x4 rotation matrix

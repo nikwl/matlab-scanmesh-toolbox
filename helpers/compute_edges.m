@@ -8,9 +8,9 @@ function [edges] = compute_edges(obj,varargin)
 %        ceil(i/3)th face (default)
 %      sorted      -  returns edges sorted by occurance in vertex list
 %      directed    -  assumes directed mesh (default)
-%      undirected  -  assumes undirected mesh
+%      undirected  -  assumes undirected mesh, ie symmetric edges
 % Outputs: 
-% 	 edges  -  nx2 list of edges
+% 	 edges  -  |e| x 2 list of edges
 %
 % Copyright (c) 2018 Nikolas Lamb
 %

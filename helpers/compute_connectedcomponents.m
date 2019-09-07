@@ -7,7 +7,7 @@ function [components] = compute_connectedcomponents(obj)
 % Inputs:
 % 	obj        -  object struct
 % Outputs: 
-%   divisions  -  |cc| x n cell array of segments containing point indices
+%   divisions  -  |cc| cell array of segments containing point indices
 %
 % Local Dependancies:
 %   compute_adjacencylist

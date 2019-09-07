@@ -11,6 +11,9 @@ function [edgedists,edges] = compute_edgedistances(obj)
 %   edgedists  -  |e| x 1 list of edge distances
 % 	edges      -  |e| x 2 list of edges
 %
+% Local Dependancies:
+%   compute_edges
+%
 % Copyright (c) 2019 Nikolas Lamb
 %
 

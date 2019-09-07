@@ -3,7 +3,7 @@ function [obj,transM] = perform_translation(obj,translation)
 %
 % Inputs:
 % 	obj          -  obj struct to rotate
-%   translation  -  1x3 vector of translation values or 4x4 translation matrix
+%   translation  -  1 x 3 vector of translation values or 4x4 translation matrix
 % Outputs: 
 %   obj          -  translated object struct
 %   transM       -  homogenous 4x4 translation matrix 

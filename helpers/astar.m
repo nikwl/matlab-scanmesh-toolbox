@@ -5,7 +5,7 @@ function [path,dist,steps] = astar(start,finish,vertices,adjacencies,path)
 % Inputs:
 % 	 start        -  index of starting vertex
 % 	 finish       -  index of ending vertex
-%    vertices     -  nx3 list of vertices
+%    vertices     -  n x 3 list of vertices
 %    adjacencies  -  cell array adjacency list
 %    path         -  (optional) initialize the path tracker
 % Outputs: 
@@ -17,7 +17,7 @@ function [path,dist,steps] = astar(start,finish,vertices,adjacencies,path)
 %    Use the optional path argument when calling the function repeatedly
 %
 %    In the case where no path is found, it will return the shortest path
-% to every point in the mesh
+%    to every point in the mesh traversed
 %    
 % Example: 
 %    obj = read_object('../test_files/duck.obj');
