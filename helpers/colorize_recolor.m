@@ -7,7 +7,7 @@ function [obj] = colorize_recolor(obj,color)
 % 	obj    -  obj struct to colorize
 %   color  -  matrix, vector, or char defining the desired color. If matrix
 %      must be |v| x 3. If vector must be 3 x 1. If char, must be color in
-%      matlab colorspec
+%      matlab colorspec.
 % Outputs: 
 %   obj    -  colorized obj struct
 %

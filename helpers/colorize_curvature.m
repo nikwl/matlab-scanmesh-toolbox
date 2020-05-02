@@ -6,12 +6,12 @@ function [obj,angles] = colorize_curvature(obj,varargin)
 % Inputs:
 % 	obj     -  obj struct to colorize
 %   optional args:
-%      color_method  -  method of color binning:
-%         1to1  -  generates |v| colors and assigns them in order of angle
-%             magnitude. More visually distinct. (default)
+%      color_method - method of color binning:
+%         1to1    -  generates |v| colors and assigns them in order of 
+%             angle magnitude. More visually distinct. (default)
 %         binned  -  generates 100 colors, rescales angles between 1 and 
 %             100, and bins angles based on their magnitude. More accurate
-%             but due to gaussian distrubution is often difficult to see. 
+%             but due to angle distrubution is often difficult to see. 
 % Outputs: 
 %   obj     -  colorized obj struct
 %   angles  -  |v| x 1 list of average angle at each vertex

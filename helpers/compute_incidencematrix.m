@@ -9,7 +9,7 @@ function [incidence] = compute_incidencematrix(obj,varargin)
 %      directed    -  assumes directed mesh (default)
 %      undirected  -  assumes undirected mesh, ie symmetric edges
 % Outputs: 
-%   adjacencies  -  |v| x |e| sparse incidence matrix
+%   incidence    -  |v| x |e| sparse incidence matrix
 %
 % Local Dependancies:
 %   compute_edges
