@@ -8,8 +8,7 @@ These meshes often have millions of vertices, are incorrectly scaled, and displa
 artifacts. This toolbox provides methods to help deal with these side-effects.
 
 All of the provided methods run "fast" on very large mesh files. Parallelization is implemented using
-default matlab functions whenever possible. If you find any potential missed opportunities for optimization 
-contact me and I'll check it out.
+default matlab functions whenever possible.
 
 ## Methods
 ### Import Export
